@@ -1,0 +1,8 @@
+- name: Infra Deploy
+  hosts: test
+  become: yes
+  tasks:
+    - name: Install zsh
+      ansible.builtin.apt:
+        pkg:
+        - zsh
