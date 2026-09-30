@@ -1,5 +1,5 @@
 - name: Infra Deploy
-  hosts: test
+  hosts: all
   tasks:
     - name: Install zsh
       ansible.builtin.apt:
@@ -15,12 +15,15 @@
       become: yes
     
     - name: Install oh-my-zsh
-      ansible.builtin.shell: sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+      ansible.builtin.git:
+        repo: https://github.com/ohmyzsh/ohmyzsh.git
+        dest: ".oh-my-zsh"
+        depth: 1
     
     - name: Install p10k
       ansible.builtin.git:
         repo: https://github.com/romkatv/powerlevel10k.git
-        dest: "{{ ZSH_CUSTOM | default('.oh-my-zsh/custom') }}/themes/powerlevel10k"
+        dest: "{{ ZSH_CUSTOM | default('.oh-my-zsh/custom') }}/themes/powerlevel10k" 
     
     - name: copy p10k config
       ansible.builtin.copy:
